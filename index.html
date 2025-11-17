@@ -3,71 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SportEct | Tu Tienda Deportiva</title>
+    <title>SportEct | Rendimiento al Máximo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Teko:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm transition-bg">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <i class="fas fa-running text-primary"></i> SportEct
+            <a class="navbar-brand brand-font" href="#">
+                <i class="fas fa-bolt text-warning me-2"></i>SPORTECT
             </a>
-            <button class="btn btn-outline-light position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0
-                </span>
-            </button>
+            
+            <div class="d-none d-md-block mx-auto w-50">
+                <div class="input-group">
+                    <input type="text" id="search-input" class="form-control border-0" placeholder="Busca: 'Nike', 'Balón', 'Running'...">
+                    <button class="btn btn-warning text-dark"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <button id="theme-toggle" class="btn btn-outline-secondary rounded-circle p-2" title="Cambiar Tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <button class="btn btn-outline-primary position-relative border-0" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="fas fa-shopping-bag fa-lg"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">0</span>
+                </button>
+            </div>
+        </div>
+        <div class="container d-md-none mt-2">
+            <input type="text" id="search-input-mobile" class="form-control form-control-sm" placeholder="Buscar producto...">
         </div>
     </nav>
 
-    <header class="bg-primary text-white text-center py-5 mb-4">
-        <div class="container">
-            <h1 class="display-4 fw-bold">Equípate para ganar</h1>
-            <p class="lead">La mejor ropa y accesorios deportivos al mejor precio.</p>
-        </div>
-    </header>
-
-    <div class="container mb-5">
-        <div id="products-container" class="row g-4">
-            <div class="text-center mt-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-                <p>Cargando catálogo...</p>
+    <header class="hero-section text-white text-center d-flex align-items-center justify-content-center mb-5">
+        <div class="container position-relative z-2">
+            <h1 class="display-1 brand-font text-uppercase text-shadow">Rompe tus límites</h1>
+            <p class="lead fs-4 text-shadow">Equipamiento profesional para atletas reales.</p>
+            <div class="mt-4">
+                <button class="btn btn-warning btn-lg fw-bold px-5 shadow" onclick="filterCategory('all', document.querySelector('.category-btn'))">Ver Catálogo</button>
             </div>
         </div>
+        <div class="overlay"></div>
+    </header>
+
+    <div class="container mb-4 text-center">
+        <button class="btn btn-custom rounded-pill m-1 active category-btn" onclick="filterCategory('all', this)">Todo</button>
+        <button class="btn btn-custom rounded-pill m-1 category-btn" onclick="filterCategory('futbol', this)">Fútbol ⚽</button>
+        <button class="btn btn-custom rounded-pill m-1 category-btn" onclick="filterCategory('gym', this)">Gym 💪</button>
+        <button class="btn btn-custom rounded-pill m-1 category-btn" onclick="filterCategory('running', this)">Running 🏃</button>
     </div>
 
-    <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">&copy; 2025 SportEct. Todos los derechos reservados.</p>
+    <div class="container mb-5">
+        <div id="products-container" class="row g-4"></div>
+    </div>
+
+    <footer class="footer-custom py-4 mt-auto text-center">
+        <div class="container">
+            <h3 class="brand-font text-warning">SPORTECT</h3>
+            <p class="small opacity-75">Tu rendimiento es nuestra prioridad.</p>
+            <p class="mb-0 opacity-50 small">&copy; 2025 SportEct Inc.</p>
+        </div>
     </footer>
 
     <div class="modal fade" id="productModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">Título del Producto</h5>
+            <div class="modal-content border-0 shadow-lg modal-custom">
+                <div class="modal-header border-0">
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body pb-4">
                     <div class="row">
-                        <div class="col-md-6 text-center">
-                            <img id="modal-img" src="" class="img-fluid rounded" style="max-height: 300px;">
+                        <div class="col-md-6 text-center d-flex align-items-center justify-content-center p-3">
+                            <img id="modal-img" src="" class="img-fluid rounded shadow-sm" style="max-height: 350px;">
                         </div>
-                        <div class="col-md-6">
-                            <p class="text-muted" id="modal-category">Categoría</p>
-                            <p id="modal-desc">Descripción...</p>
-                            <h3 class="text-success fw-bold" id="modal-price">$0.00</h3>
-                            <div class="d-flex align-items-center mt-3">
-                                <input type="number" id="modal-qty" class="form-control w-25 me-2" value="1" min="1">
-                                <button class="btn btn-primary w-100" onclick="addToCartFromModal()">
-                                    <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                        <div class="col-md-6 pt-3">
+                            <span id="modal-category" class="badge bg-warning text-dark mb-2">CATEGORÍA</span>
+                            <h2 id="modal-title" class="fw-bold brand-font">Título</h2>
+                            <h3 id="modal-price" class="text-primary fw-bold my-3 display-6">$0.00</h3>
+                            <p id="modal-desc" class="opacity-75">Descripción...</p>
+                            
+                            <div class="mb-3">
+                                <label class="fw-bold small text-uppercase opacity-75">Talla:</label>
+                                <select id="modal-size" class="form-select w-50 input-custom">
+                                    <option value="S">S (Small)</option>
+                                    <option value="M" selected>M (Medium)</option>
+                                    <option value="L">L (Large)</option>
+                                    <option value="XL">XL (Extra Large)</option>
+                                </select>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-4">
+                                <input type="number" id="modal-qty" class="form-control w-25 text-center fw-bold input-custom" value="1" min="1">
+                                <button class="btn btn-primary flex-grow-1 fw-bold shadow-sm" onclick="addToCartFromModal()">
+                                    AÑADIR <i class="fas fa-cart-plus ms-2"></i>
                                 </button>
                             </div>
                         </div>
@@ -79,21 +113,22 @@
 
     <div class="modal fade" id="cartModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="fas fa-shopping-cart"></i> Tu Carrito</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-content modal-custom">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-shopping-bag text-warning me-2"></i>Tu Equipo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="cart-items">
-                        <p class="text-center text-muted">Tu carrito está vacío 😔</p>
-                    </div>
+                    <div id="cart-items" class="list-group list-group-flush mb-3"></div>
                 </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <h4 class="fw-bold">Total: $<span id="cart-total">0.00</span></h4>
+                <div class="modal-footer d-flex justify-content-between align-items-center border-top border-secondary">
                     <div>
-                        <button class="btn btn-secondary" onclick="clearCart()">Vaciar 🗑️</button>
-                        <button class="btn btn-success" onclick="openCheckout()">Ir a Pagar 💳</button>
+                        <small class="text-uppercase fw-bold opacity-75">Total</small>
+                        <h3 class="fw-bold m-0 text-warning">$<span id="cart-total">0.00</span></h3>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-danger me-2" onclick="clearCart()">Vaciar</button>
+                        <button class="btn btn-success px-4 fw-bold" onclick="openCheckout()">PAGAR <i class="fas fa-arrow-right ms-2"></i></button>
                     </div>
                 </div>
             </div>
@@ -101,37 +136,37 @@
     </div>
 
     <div class="modal fade" id="checkoutModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 modal-custom">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">Finalizar Compra 💳</h5>
+                    <h5 class="modal-title fw-bold">Pago Seguro 🔒</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <form id="payment-form">
                         <div class="mb-3">
-                            <label class="form-label">Nombre Completo</label>
-                            <input type="text" id="card-name" class="form-control" placeholder="Ej. Juan Pérez" required>
+                            <label class="form-label fw-bold small opacity-75">TITULAR</label>
+                            <input type="text" id="card-name" class="form-control input-custom" placeholder="NOMBRE APELLIDO" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Número de Tarjeta</label>
-                            <input type="text" class="form-control" placeholder="0000 0000 0000 0000" maxlength="16" required>
+                            <label class="form-label fw-bold small opacity-75">TARJETA</label>
+                            <input type="text" class="form-control input-custom" placeholder="0000 0000 0000 0000" maxlength="19" required>
                         </div>
                         <div class="row">
                             <div class="col-6 mb-3">
-                                <label class="form-label">Vencimiento</label>
-                                <input type="text" class="form-control" placeholder="MM/AA" required>
+                                <label class="form-label fw-bold small opacity-75">EXPIRA</label>
+                                <input type="text" class="form-control input-custom" placeholder="MM/AA" required>
                             </div>
                             <div class="col-6 mb-3">
-                                <label class="form-label">CVV</label>
-                                <input type="password" class="form-control" placeholder="123" maxlength="3" required>
+                                <label class="form-label fw-bold small opacity-75">CVC</label>
+                                <input type="password" class="form-control input-custom" placeholder="123" maxlength="3" required>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary w-100" onclick="processPayment()">
-                        Pagar Ahora ✅
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-primary w-100 py-2 fw-bold" onclick="processPayment()">
+                        FINALIZAR PEDIDO
                     </button>
                 </div>
             </div>
