@@ -1,74 +1,146 @@
-/* Configuración General */
+/* --- VARIABLES & TEMAS --- */
+:root {
+    /* Tema Claro (Default) */
+    --bg-body: #f4f6f8;
+    --bg-card: #ffffff;
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    --navbar-bg: #ffffff;
+    --border-color: #e9ecef;
+    --input-bg: #ffffff;
+    --btn-custom-bg: #ffffff;
+    --btn-custom-text: #212529;
+    --shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+    /* Tema Oscuro */
+    --bg-body: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #f8f9fa;
+    --text-muted: #adb5bd;
+    --navbar-bg: #181818;
+    --border-color: #2c2c2c;
+    --input-bg: #2c2c2c;
+    --btn-custom-bg: #2c2c2c;
+    --btn-custom-text: #f8f9fa;
+    --shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* --- ESTILOS GLOBALES --- */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    color: #343A40;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Colores de la Marca */
-.bg-primary {
-    background-color: #007BFF !important; /* Azul Eléctrico */
+.brand-font {
+    font-family: 'Teko', sans-serif;
+    letter-spacing: 1px;
+    font-size: 1.8rem;
 }
 
-.text-primary {
-    color: #007BFF !important;
+/* Navbar & Footer */
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    transition: background-color 0.3s;
 }
 
-.bg-success {
-    background-color: #28A745 !important; /* Verde Éxito */
+.navbar-brand { color: var(--text-main) !important; }
+
+.footer-custom {
+    background-color: var(--navbar-bg);
+    border-top: 1px solid var(--border-color);
 }
 
-/* Cards de Productos */
+/* Hero */
+.hero-section {
+    background: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    height: 450px;
+    position: relative;
+}
+.hero-section .overlay {
+    background: rgba(0, 0, 0, 0.5); /* Oscurecer imagen */
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+}
+.text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+
+/* Cards */
 .product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
-    border-radius: 10px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
     overflow: hidden;
-    background: white;
 }
-
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow);
+    border-color: #ffc107; /* Borde amarillo al hover */
 }
+.card-body h5 { color: var(--text-main); }
+.card-body small { color: var(--text-muted); }
 
-.card-img-top {
-    height: 200px;
-    object-fit: contain;
-    padding: 20px;
-    transition: transform 0.3s;
-}
-
-.product-card:hover .card-img-top {
-    transform: scale(1.05);
-}
-
-.card-body {
+.card-img-wrapper {
+    height: 240px;
+    background-color: #fff; /* Siempre blanco para que la imagen resalte */
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.card-img-top {
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s;
+}
+.product-card:hover .card-img-top { transform: scale(1.1); }
+
+/* Botones Categoría */
+.btn-custom {
+    background-color: var(--btn-custom-bg);
+    color: var(--btn-custom-text);
+    border: 1px solid var(--border-color);
+}
+.btn-custom:hover, .btn-custom.active {
+    background-color: #ffc107;
+    color: #000;
+    border-color: #ffc107;
 }
 
-.card-title {
-    font-size: 1rem;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+/* Modales */
+.modal-custom {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+}
+.btn-close {
+    filter: invert(var(--invert-close)); /* Truco para invertir color en modo oscuro */
+}
+[data-theme="dark"] { --invert-close: 1; }
+[data-theme="light"] { --invert-close: 0; }
+
+/* Inputs */
+.input-custom {
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+.input-custom:focus {
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    border-color: #ffc107;
+    box-shadow: none;
 }
 
-.price-tag {
-    color: #28A745;
-    font-size: 1.2rem;
-    font-weight: bold;
+/* List Group (Carrito) */
+.list-group-item {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-color);
 }
 
-/* Ajustes para el Ticket Térmico (Visualización oculta si quisieras imprimir directo del HTML, pero usaremos jsPDF) */
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    #print-area, #print-area * {
-        visibility: visible;
-    }
-}
+.price-tag { font-weight: 800; font-size: 1.2rem; color: #0d6efd; }
